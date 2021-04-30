@@ -1,5 +1,5 @@
 {
   "port": 5000,
-  "mongoUri": "mongodb+srv://raykind:89519527902@cluster0.ht70f.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+  "mongoUri": "mongodb+srv://raykind:89519527902@cluster0.ht70f.mongodb.net/main?retryWrites=true&w=majority",
   "baseUrl": "http://localhost:5000"
 }

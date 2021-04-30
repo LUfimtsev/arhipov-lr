@@ -1,19 +1,13 @@
-import React from 'react';
-import {BrowserRouter as Router} from 'react-router-dom'
-import 'App.css';
-import {useRoutes} from "routes";
+import React from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import "App.css";
+import { useRoutes } from "routes";
 
 const App = () => {
-    const routes = useRoutes();
+  const isLoggedIn = localStorage.getItem("isLoggedIn");
+  const routes = useRoutes(!!isLoggedIn);
 
-    return (
-        <Router>
-            <div>
-                {routes}
-            </div>
-        </Router>
-    );
-}
-
+  return <Router>{routes}</Router>;
+};
 
 export default App;
