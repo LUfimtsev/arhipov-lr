@@ -7,8 +7,10 @@ const app = express();
 app.use(express.json({ extended: true }));
 
 app.use("/api/auth", require("./routes/auth"));
-/* app.use('/api/menu', require('./routes/menu.routes'))
-app.use('/api/orders', require('./routes/orders.routes')) */
+app.use("/api/goods", require("./routes/goods"));
+app.use("/api/shops", require("./routes/shops"));
+app.use("/api/stocks", require("./routes/stocks"));
+app.use("/api/contractors", require("./routes/contractors"));
 
 const PORT = config.get("port") || 5000;
 

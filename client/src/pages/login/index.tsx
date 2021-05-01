@@ -1,6 +1,8 @@
 import { Typography, TextField, makeStyles, Button } from "@material-ui/core";
 import React, { FormEvent, useState } from "react";
 import { useHttp } from "hooks/http";
+import { useDispatch } from "react-redux";
+import { login } from "redux/actions";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -14,14 +16,20 @@ const useStyles = makeStyles(() => ({
   mb15: {
     marginBottom: "15px",
   },
+  textField: {
+    marginBottom: "15px",
+    width: 250,
+  },
 }));
 
 const Login = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const [isRegistrationMode, setIsRegistrationMode] = useState(false);
-  const [login, setLogin] = useState("");
-  const [password, setPassword] = useState("");
+  const [loginValue, setLoginValue] = useState("");
+  const [passwordValue, setPasswordValue] = useState("");
+  const [error, setError] = useState("");
   const { request } = useHttp();
 
   const handleInput = (
@@ -34,10 +42,31 @@ const Login = () => {
   };
 
   const register = async () => {
-    const data = await request("/api/auth/register", "POST", {
-      login,
-      password,
-    });
+    try {
+      setError("");
+      await request("/api/auth/register", "POST", {
+        login: loginValue,
+        password: passwordValue,
+      });
+      localStorage.setItem("isLoggedIn", "true");
+      dispatch(login(true));
+    } catch (e) {
+      setError(e.message);
+    }
+  };
+
+  const signIn = async () => {
+    try {
+      setError("");
+      await request("/api/auth/login", "POST", {
+        login: loginValue,
+        password: passwordValue,
+      });
+      localStorage.setItem("isLoggedIn", "true");
+      dispatch(login(true));
+    } catch (e) {
+      setError(e.message);
+    }
   };
 
   return !isRegistrationMode ? (
@@ -48,19 +77,27 @@ const Login = () => {
       <TextField
         variant="outlined"
         label="login"
-        className={classes.mb15}
-        value={login}
-        onInput={(val) => handleInput(val, setLogin)}
+        className={classes.textField}
+        value={loginValue}
+        onInput={(val) => handleInput(val, setLoginValue)}
+        error={error !== ""}
       />
       <TextField
         variant="outlined"
         label="password"
-        className={classes.mb15}
+        className={classes.textField}
         type="password"
-        value={password}
-        onInput={(val) => handleInput(val, setPassword)}
+        value={passwordValue}
+        onInput={(val) => handleInput(val, setPasswordValue)}
+        error={error !== ""}
+        helperText={error}
       />
-      <Button variant="contained" color="primary" className={classes.mb15}>
+      <Button
+        variant="contained"
+        color="primary"
+        className={classes.mb15}
+        onClick={signIn}
+      >
         Войти
       </Button>
       <Typography variant="body1" className={classes.mb15}>
@@ -82,17 +119,20 @@ const Login = () => {
       <TextField
         variant="outlined"
         label="login"
-        className={classes.mb15}
-        value={login}
-        onInput={(val) => handleInput(val, setLogin)}
+        className={classes.textField}
+        value={loginValue}
+        onInput={(val) => handleInput(val, setLoginValue)}
+        error={error !== ""}
       />
       <TextField
         variant="outlined"
         label="password"
-        className={classes.mb15}
+        className={classes.textField}
         type="password"
-        value={password}
-        onInput={(val) => handleInput(val, setPassword)}
+        value={passwordValue}
+        onInput={(val) => handleInput(val, setPasswordValue)}
+        error={error !== ""}
+        helperText={error}
       />
       <Button
         variant="contained"

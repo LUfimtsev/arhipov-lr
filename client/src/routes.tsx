@@ -2,14 +2,27 @@ import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import Login from "pages/login";
 import Home from "pages/home";
+import Navbar from "components/navbar";
+import Status from "pages/status";
+import InvoiceActs from "components/invoice-acts";
 
 export const useRoutes = (isLogged: boolean) => {
   if (isLogged) {
     return (
       <>
+        <Navbar />
         <Switch>
           <Route path="/home" exact>
             <Home />
+          </Route>
+          <Route path="/invoices">
+            <InvoiceActs />
+          </Route>
+          <Route path="/act">
+            <InvoiceActs isAct />
+          </Route>
+          <Route path="/status">
+            <Status />
           </Route>
           <Redirect to="/home" />
         </Switch>
