@@ -40,3 +40,17 @@ export const useHttp = () => {
 
   return { loading, request, error, clearError };
 };
+
+export const log = async (actionName: string) => {
+  let headers: any = {};
+  headers["Content-Type"] = "application/json";
+  await fetch("/api/logs/write", {
+    method: "POST",
+    body: JSON.stringify({
+      userId: localStorage.getItem("userId"),
+      actionName,
+      date: new Date(),
+    }),
+    headers,
+  });
+};

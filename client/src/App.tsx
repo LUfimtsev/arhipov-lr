@@ -9,7 +9,7 @@ import { StateProps } from "redux/reducer";
 
 const App = ({ isLogin }: { isLogin: boolean }) => {
   const dispatch = useDispatch();
-  const isLoggedIn = isLogin || !!localStorage.getItem("isLoggedIn");
+  const isLoggedIn = isLogin || !!localStorage.getItem("userId");
 
   if (isLoggedIn !== isLogin) {
     dispatch(login(isLoggedIn));

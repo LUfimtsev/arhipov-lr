@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const User = require("../models/User");
+const bcrypt = require("bcryptjs");
 const router = Router();
 
 // /api/auth/register
@@ -15,11 +16,16 @@ router.post("/register", [], async (req, res) => {
         .json({ message: "Такой пользователь уже существует" });
     }
 
-    const newUser = new User({ login, password });
+    const hashedPassword = await bcrypt.hash(password, 12);
+    const newUser = new User({
+      login,
+      password: hashedPassword,
+      isAdmin: false,
+    });
 
     await newUser.save();
 
-    res.status(201).json({ message: "Пользователь создан" });
+    res.status(201).json({ userId: newUser.id });
   } catch (e) {
     res.status(500).json({ message: e });
   }
@@ -36,7 +42,9 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Пользователь не найден" });
     }
 
-    if (user.password !== password) {
+    const isPasswordsMatch = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordsMatch) {
       return res
         .status(400)
         .json({ message: "Неверный пароль, попробуйте снова" });

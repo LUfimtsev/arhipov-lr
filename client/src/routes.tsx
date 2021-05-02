@@ -5,6 +5,7 @@ import Home from "pages/home";
 import Navbar from "components/navbar";
 import Status from "pages/status";
 import InvoiceActs from "components/invoice-acts";
+import Log from "pages/log";
 
 export const useRoutes = (isLogged: boolean) => {
   if (isLogged) {
@@ -23,6 +24,9 @@ export const useRoutes = (isLogged: boolean) => {
           </Route>
           <Route path="/status">
             <Status />
+          </Route>
+          <Route path="/log">
+            <Log />
           </Route>
           <Redirect to="/home" />
         </Switch>

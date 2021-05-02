@@ -8,6 +8,8 @@ import {
 import { connect } from "react-redux";
 import { Button, makeStyles, Typography } from "@material-ui/core";
 import { ChosenGood, InvoiceType } from "components/invoice-acts";
+import useAsyncEffect from "use-async-effect";
+import { log } from "hooks/http";
 
 interface Props {
   isAct?: boolean;
@@ -78,6 +80,18 @@ const FormedInvoice: React.FC<Props> = ({
   onClose,
 }) => {
   const classes = useStyles();
+
+  useAsyncEffect(async () => {
+    await log(
+      `${
+        isAct
+          ? "Акт сформирован"
+          : invoiceType === InvoiceType.Sales
+          ? "Расходная накладная сформирована"
+          : "Приходная накладная сформирована"
+      }`
+    );
+  }, []);
 
   return (
     <div className={classes.root}>

@@ -10,6 +10,7 @@ app.use("/api/auth", require("./routes/auth"));
 app.use("/api/goods", require("./routes/goods"));
 app.use("/api/shops", require("./routes/shops"));
 app.use("/api/stocks", require("./routes/stocks"));
+app.use("/api/logs", require("./routes/logs"));
 app.use("/api/contractors", require("./routes/contractors"));
 
 const PORT = config.get("port") || 5000;

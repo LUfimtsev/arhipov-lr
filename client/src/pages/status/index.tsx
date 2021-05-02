@@ -4,7 +4,7 @@ import useAsyncEffect from "use-async-effect";
 import { saveGoods, saveShops } from "redux/actions";
 import { GoodProps, ShopsProps, StateProps } from "redux/reducer";
 import { connect, useDispatch } from "react-redux";
-import { useHttp } from "hooks/http";
+import { log, useHttp } from "hooks/http";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -61,6 +61,7 @@ const Status = ({ shops, goods }: Props) => {
       await dispatch(saveGoods(result.data));
     }
     result = await request("/api/stocks/getAll", "GET");
+    await log("Переход страницу данных о товарах");
     setStocks(result.data);
   }, []);
 

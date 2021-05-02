@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import useAsyncEffect from "use-async-effect";
 import AddIcon from "@material-ui/icons/Add";
-import { useHttp } from "hooks/http";
+import { log, useHttp } from "hooks/http";
 import {
   ContractorsProps,
   GoodProps,
@@ -110,14 +110,19 @@ const InvoiceActs = ({
     }
     setChosenGoods(newGoods);
   };
-  const handleAddNewGood = () => {
+  const handleAddNewGood = async () => {
     setChosenGoods([...chosenGoods, { goodId: goods[0]._id, goodCount: 1 }]);
+    await log("Добавлен новый товар");
   };
-  const handleFormInvoice = () => {
+  const handleFormInvoice = async () => {
     setMode(Mode.View);
+    await log(`Формирование ${isAct ? "Акта" : "Накладной"}`);
   };
 
   useAsyncEffect(async () => {
+    await log(
+      `Переход на страницу ${isAct ? "Актов приемки-передачи" : "Накладных"}`
+    );
     let goodsData = goods;
     let contractorsData = contractors;
     let shopsData = shops;

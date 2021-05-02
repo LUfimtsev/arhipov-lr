@@ -1,6 +1,6 @@
 import { Typography, TextField, makeStyles, Button } from "@material-ui/core";
 import React, { FormEvent, useState } from "react";
-import { useHttp } from "hooks/http";
+import { log, useHttp } from "hooks/http";
 import { useDispatch } from "react-redux";
 import { login } from "redux/actions";
 
@@ -44,12 +44,13 @@ const Login = () => {
   const register = async () => {
     try {
       setError("");
-      await request("/api/auth/register", "POST", {
+      const result = await request("/api/auth/register", "POST", {
         login: loginValue,
         password: passwordValue,
       });
-      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("userId", result.userId);
       dispatch(login(true));
+      await log("Регистрация");
     } catch (e) {
       setError(e.message);
     }
@@ -58,12 +59,13 @@ const Login = () => {
   const signIn = async () => {
     try {
       setError("");
-      await request("/api/auth/login", "POST", {
+      const result = await request("/api/auth/login", "POST", {
         login: loginValue,
         password: passwordValue,
       });
-      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("userId", result.userId);
       dispatch(login(true));
+      await log("Логин");
     } catch (e) {
       setError(e.message);
     }

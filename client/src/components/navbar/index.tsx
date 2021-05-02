@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   AppBar,
-  Divider,
   IconButton,
   makeStyles,
   Toolbar,
@@ -25,11 +24,6 @@ const useStyles = makeStyles(() => ({
     "&.selected": {
       backgroundColor: "#737db9",
     },
-  },
-  divider: {
-    width: 2,
-    minHeight: 64,
-    backgroundColor: "#fff",
   },
 }));
 
@@ -86,7 +80,15 @@ const Navbar = () => {
         >
           Данные о товарах
         </Typography>
-        <Divider orientation="vertical" className={classes.divider} />
+        <Typography
+          variant="body1"
+          className={`${classes.link} ${
+            selectedUrl === "/log" ? "selected" : null
+          }`}
+          onClick={() => onClick("/log")}
+        >
+          История действий
+        </Typography>
       </Toolbar>
     </AppBar>
   );
