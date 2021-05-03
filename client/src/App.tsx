@@ -2,7 +2,6 @@ import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import "App.css";
 import { useRoutes } from "routes";
-import { ToastContainer } from "react-toastify";
 import { connect, useDispatch } from "react-redux";
 import { login } from "redux/actions";
 import { StateProps } from "redux/reducer";
@@ -17,12 +16,7 @@ const App = ({ isLogin }: { isLogin: boolean }) => {
 
   const routes = useRoutes(isLoggedIn);
 
-  return (
-    <Router>
-      {routes}
-      <ToastContainer />
-    </Router>
-  );
+  return <Router>{routes}</Router>;
 };
 
 const mapStateToProps = (state: StateProps) => ({
