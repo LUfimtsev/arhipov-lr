@@ -42,7 +42,7 @@ router.post("/getByUser", [], async (req, res) => {
       .status(201)
       .json({ logins: idToLoginArray, data: logs, isAdmin: user.isAdmin });
   } catch (e) {
-    res.status(500).json({ message: e });
+    res.status(500).json({ message: e.message });
   }
 });
 

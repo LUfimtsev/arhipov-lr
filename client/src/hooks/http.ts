@@ -44,10 +44,14 @@ export const useHttp = () => {
 export const log = async (actionName: string) => {
   let headers: any = {};
   headers["Content-Type"] = "application/json";
+  const userId = localStorage.getItem("userId");
+  if (!userId) {
+    return;
+  }
   await fetch("/api/logs/write", {
     method: "POST",
     body: JSON.stringify({
-      userId: localStorage.getItem("userId"),
+      userId,
       actionName,
       date: new Date(),
     }),
